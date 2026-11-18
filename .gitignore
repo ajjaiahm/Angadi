@@ -17,3 +17,18 @@
 local.properties
 backend/.env
 backend/node_modules/
+
+# Build outputs and secrets
+/app/build
+/build
+*.apk
+*.aab
+artifacts/
+.env
+*.env
+!.env.example
+!backend/.env.example
+backend/.env
+node_modules/
+*.jks
+*.keystore
