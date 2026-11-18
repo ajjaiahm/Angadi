@@ -4,9 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.remember
-import com.angadi.app.presentation.AngadiApp
-import com.angadi.app.presentation.AngadiStore
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.angadi.app.presentation.navigation.AngadiApp
+import com.angadi.app.presentation.viewmodel.AppViewModelFactory
+import com.angadi.app.presentation.viewmodel.ShopViewModel
 import com.angadi.app.ui.theme.ANGADITheme
 
 class MainActivity : ComponentActivity() {
@@ -14,9 +17,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val store = remember { AngadiStore(applicationContext) }
-            ANGADITheme(themeMode = store.themeMode) {
-                AngadiApp(store)
+            val shopViewModel: ShopViewModel = viewModel(factory = AppViewModelFactory)
+            val state by shopViewModel.state.collectAsStateWithLifecycle()
+            ANGADITheme(themeMode = state.themeMode) {
+                AngadiApp(shopViewModel)
             }
         }
     }
